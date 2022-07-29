@@ -36,18 +36,22 @@ router.post('/insert', async function (req, res, next) {
   res.redirect("/")
 
 });
-router.post('/update', function (req, res, next) {
+router.post('/update', async function (req, res, next) {
   var item = {
-    id: req.body.id,
     title: req.body.title,
     content: req.body.content,
     author: req.body.author,
   }
 
+  var id = req.body.id;
+  await Excercise.updateOne({ "_id": id }, { $set: item })
+  res.redirect("/")
 
 });
-router.post('/delete', function (req, res, next) {
+router.post('/delete', async function (req, res, next) {
   var id = req.body.id
+  await Excercise.deleteOne({ "_id": id })
+  res.redirect("/")
 });
 
 module.exports = router;
